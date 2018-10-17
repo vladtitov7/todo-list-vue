@@ -3,10 +3,173 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="app.css">
     <title>todo-list-vue</title>
   </head>
   <body>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
-  </body>
+
+    <div class="container pt-5" id="app">
+        <div class="row mb-3">
+            <div class="col">
+                <h1>TODO list application</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="search">Find task</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="search" 
+                            placeholder="completed, outstanding"
+                            v-model="search"
+                            >
+                            {{ search }}
+                    </div>
+    
+                    <hr>
+    
+                    <ul class="list-group">
+                        <li
+                            v-for="(task, index) in filteredTasks"
+                            class="list-group-item list-group-item-action pointer"
+                            v-on:click="selectTask(task, index)"
+                            v-bind:class="{'active': selectedTaskIndex === index}"
+                        >
+                      
+                            {{ task.title }} - {{ task.status }}
+                        </li>
+    
+                    </ul>
+            </div>
+            <div class="col-md-8 pt-3">
+                <div class="row">
+                    <div class="col-md-5">
+                        <h2>Create new task</h2>
+
+                        <div class="form-group pt-3">
+                                <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="titleId" 
+                                    placeholder="Title"
+                                    v-model="titleId"
+                                    >
+                                    <hr>
+                                    {{ titleId }}
+                                    <input 
+                                    type="text" 
+                                    class="form-control" 
+                                    id="descriptionId" 
+                                    placeholder="description"
+                                    v-model="descriptionId"
+                                    >
+                                    <hr>
+                                    {{ descriptionId }}
+    
+                                    <button 
+                                        class="btn btn-primary mr-3 offset-3" 
+                                        @click="addTaskMethod"
+                                    >
+                                    Add new task
+                                </button>
+    
+                            </div>
+                    </div>
+                    <div class="col-md-7">
+                            <div class="col-md-12">
+                                    <h2>{{ task.title }}</h2>
+                                </div>
+                        <!-- <h5>Detailed description</h5> -->
+                        <hr>
+                        <ul>
+                            <li>status - <strong>{{ task.status }}</strong></li>
+                            <li>description - <strong>{{ task.description }}</strong></li>
+                        </ul>
+<!--
+                        <button 
+                            class="btn btn-primary mr-3" 
+                            >
+                            Change task
+                        </button>
+ -->  
+                        <button class="btn btn-outline-success offset-4" @click="modalVisibility = true">Delete </button>   
+ 
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row pt-3" v-if="logs.length !== 0">
+            <div class="col-md-12">
+                <ul class="list-group">
+                    <li 
+                        v-for="log in logs"
+                        class="list-group-item"
+                        :class="{
+                            'list-group-item-secondary' : log.type === 'cnl',
+                            'list-group-item-success' : log.type === 'ok'
+                        }"
+                    >
+                    {{ log.text }} {{ log.date | date}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    
+        <transition name="modal">
+            <div class="modal fade show" v-if="modalVisibility" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Do you want delete this task?</h5>
+                  <button 
+                    type="button" 
+                    class="close" 
+                    data-dismiss="modal" 
+                    aria-label="Close"
+                    @click="modalVisibility = false"
+                    >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Current task: <strong>{{ task.title }}</strong></p>
+    
+                  <ul>
+                    <li>status - <strong>{{ task.status }}</strong></li>
+                    <li>description - <strong>{{ task.description }}</strong></li>
+                </ul>
+    
+                </div>
+                <div class="modal-footer">
+                  <button 
+                    type="button" 
+                    class="btn btn-secondary" 
+                    data-dismiss="modal"
+                    @click="cancelDeleting"
+                    >
+                    Cancel</button>
+                  <button 
+                    type="button" 
+                    class="btn btn-primary"
+                    @click="deleteMethod(task)"
+                    >
+                    Yes</button>
+                </div>
+              </div>
+            </div>
+                </div>
+        </transition>
+    
+        <transition name="fade">
+          <div class="modal-backdrop fade show" v-if="modalVisibility"></div>
+            </div>
+        </transition>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> 
+    <script src="src\main.js"></script>
+    </body>
 </html>
