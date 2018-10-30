@@ -16,7 +16,7 @@
       <li
         v-for="(task, index) in filteredTasks"
         class="list-group-item list-group-item-action pointer"
-        @click="selectTask(task)"
+        @click="selectTask(index)"
         v-bind:class="{'active': selectedTaskIndex === index}"
         :key="task.id"
       >
@@ -42,8 +42,8 @@ export default {
     Task
   },
   methods: {
-    selectTask (task) {
-      sweetalert(`${this.tasks.indexOf(task).title}`, 'function with description will be added as soon as possible!', 'success')
+    selectTask (index) {
+      sweetalert(`${this.tasks[index].title}`, `${this.tasks[index].description}`, 'success')
     },
     cancelMethod () {
       this.taskVisibility = false
