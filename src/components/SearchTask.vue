@@ -16,7 +16,7 @@
       <li
         v-for="(task, index) in filteredTasks"
         class="list-group-item list-group-item-action pointer"
-        @click="selectTask(index)"
+        @click="selectTask(task)"
         :key="task.id"
       >
       {{ task.title }}
@@ -40,8 +40,9 @@ export default {
     Task
   },
   methods: {
-    selectTask (index) {
-      sweetalert(`${this.tasks[index].title}`, `${this.tasks[index].description}`, `${this.tasks[index].status === true ? `success` : `error`}`)
+    selectTask (task) {
+      let taskIndex = this.tasks.indexOf(task)
+      sweetalert(`${this.tasks[taskIndex].title}`, `${this.tasks[taskIndex].description}`, `${this.tasks[taskIndex].status === true ? `success` : `error`}`)
     },
     cancelMethod () {
       this.taskVisibility = false
