@@ -6,7 +6,7 @@
           type="text"
           class="form-control"
           id="search"
-          placeholder="completed, outstanding"
+          placeholder="type title or description"
           v-model="search"
         >
         {{ search }}
@@ -17,7 +17,6 @@
         v-for="(task, index) in filteredTasks"
         class="list-group-item list-group-item-action pointer"
         @click="selectTask(index)"
-        v-bind:class="{'active': selectedTaskIndex === index}"
         :key="task.id"
       >
       {{ task.title }}
@@ -34,8 +33,7 @@ export default {
   props: ['tasks', 'task'],
   data () {
     return {
-      search: '',
-      selectedTaskIndex: 0
+      search: ''
     }
   },
   components: {
