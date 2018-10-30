@@ -3,7 +3,7 @@
     <h1 class="align-self-center">TODO list application</h1>
      <div class="container">
        <div class="row align-items-center">
-      <div class="col">
+      <div class="col align-self-start">
         <search-task v-bind:tasks="tasks"></search-task>
       </div>
       <div class="col">
