@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     selectTask (index) {
-      sweetalert(`${this.tasks[index].title}`, `${this.tasks[index].description}`, 'success')
+      sweetalert(`${this.tasks[index].title}`, `${this.tasks[index].description}`, `${this.tasks[index].status === true ? `success` : `error`}`)
     },
     cancelMethod () {
       this.taskVisibility = false
